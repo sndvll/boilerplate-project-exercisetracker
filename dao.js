@@ -15,12 +15,14 @@ const connect = () => {
 // Schemas
 const userSchema = mongoose.Schema({
   username: { type: String, required: true },
-  _id: { type: String, required: true }
+  _id: { type: String, required: true },
+  count: Number,
+  log: []
 });
-const excerciseSchema = mongoose.Schema({});
+
 // Models
-const User = mongoose.model('excerciseusers', userSchema);
-const Excercise = mongoose.model('excercises', excerciseSchema);
+const User = mongoose.model('exerciseusers', userSchema);
+
 // Operations
 const createUser = (username, done) => {
   User.findOne({username: username}, (err, res) => {
@@ -34,9 +36,10 @@ const createUser = (username, done) => {
     }
   });
 };
-
+const addExercise = (payload, done) => {}
 
 module.exports = {
   connect,
-  createUser
+  createUser,
+  addExercise
 };

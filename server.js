@@ -23,14 +23,16 @@ const newUserHandler = (req, res) => {
     res.json(data)
   });
 };
-const newExcerciseHandler = (req, res) => {};
-const getHandler = (req, res) => {};
+const addExerciseHandler = (req, res) => {
+  dao.addExercise(req.body,)
+};
+const getLogHandler = (req, res) => {};
 
 
 // Routes
 app.post('/api/exercise/new-user', newUserHandler);
-app.post('/api/exercise/add', newExcerciseHandler);
-app.get('/api/exercise/log', getHandler);
+app.post('/api/exercise/add', addExerciseHandler);
+app.get('/api/exercise/log', getLogHandler);
 
 // Not found middleware
 app.use((req, res, next) => next({status: 404, message: 'not found'}));
