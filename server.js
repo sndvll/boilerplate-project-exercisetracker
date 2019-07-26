@@ -10,11 +10,25 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+// Routehandlers
+const newUserHandler = (req, res) => {
+  res.json(dao.createUser(req.body.username));
+};
+const newExcerciseHandler = (req, res) => {};
+const getHandler = (req, res) => {};
+
+
+// Routes
+app.post('/api/exercise/new-user', newUserHandler);
+app.post('/api/exercise/add', newExcerciseHandler);
+app.get('/api/exercise/log', getHandler);
 
 // Not found middleware
 app.use((req, res, next) => next({status: 404, message: 'not found'}));
@@ -38,20 +52,6 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 });
 
-
-// Routehandlers
-const newUserHandler = (req, res) => {
-  res.json(dao.createUser(req.body.username));
-};
-const newExcerciseHandler = (req, res) => {};
-const getHandler = (req, res) => {};
-
-
-// Routes
-app.post('/api/exercise/new-user', newUserHandler);
-app.post('/api/exercise/add', newExcerciseHandler);
-app.get('/api/exercise/log', getHandler);
-
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+app.listen(port, () => {
+  console.log('Your app is listening on port ' + port);
 });

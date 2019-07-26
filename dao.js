@@ -19,12 +19,13 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model('excerciseUser', userSchema);
 
 const createUser = (username) => {
-  User.findOne({username}, (err, res) => {
+  return User.findOne({username}, (err, res) => {
     if (err) return errors.general;
     if (res) return errors.usernameTaken;
-    User.create({username, _id: shortid.generate()}, (err, res) => {
+    return User.create({username, _id: shortid.generate()}, (err, res) => {
       if (err) return errors.general;
-      return res;
+      console.log(res);
+      return { username: res.username, _id: res._id };
     });
   })
 };
