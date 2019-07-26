@@ -18,19 +18,19 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('excerciseUser', userSchema);
 
-const createUser = async (username) => {
-  let json;
-  await User.findOne({username: username}, async (err, res) => {
-    if (err) json = {...errors.general};
-    if (res) json = {...errors.usernameTaken};
-    await User.create({username: username, _id: shortid.generate()}, async (err, res) => {
-      if (err) json = {...errors.general};
-      console.log(res);
-      await json = { username: res.username, _id: res._id };
-    });
-  })
-  return json;
+const createUser = (username, done) => {
+  User.findOne({username: username}, (err, res) => {
+    if (err) done({...errors.general});
+    else if (res) done({...errors.usernameTaken});
+    else {
+      User.create({username: username, _id: shortid.generate()}, (err, res) => {
+        if (err) done({...errors.general});
+        done(null,{ username: res.username, _id: res._id });
+      });
+    }
+  });
 };
+
 
 module.exports = {
   connect,

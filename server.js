@@ -19,7 +19,9 @@ app.get('/', (req, res) => {
 
 // Routehandlers
 const newUserHandler = (req, res) => {
-  dao.createUser(req.body.username).then(user => res.json(user));
+  dao.createUser(req.body.username, (err, data) => {
+    
+  });
 };
 const newExcerciseHandler = (req, res) => {};
 const getHandler = (req, res) => {};
