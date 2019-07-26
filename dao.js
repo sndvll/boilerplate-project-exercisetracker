@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const errors = {
   general: { error: 'Something wnt south...' },
-  userNotFound: { error: 'No user with ' }
+  userNotFound: { error: 'No user with that username found' },
+  usernameTaken: {}
 };
 
 const connect = () => {
@@ -18,7 +19,8 @@ const User = mongoose.model('excerciseUser', userSchema);
 
 const createUser = (username) => {
   User.findOne({username}, (err, res) => {
-    
+    if (err) return errors.general;
+    if (res) return
   })
 };
 
