@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 const errors = {
   general: { error: 'Something wnt south...' },
   userNotFound: { error: 'No user with that username found' },
-  usernameTaken: {}
+  usernameTaken: { error: 'Username allready taken' }
 };
 
 const connect = () => {
@@ -20,10 +21,15 @@ const User = mongoose.model('excerciseUser', userSchema);
 const createUser = (username) => {
   User.findOne({username}, (err, res) => {
     if (err) return errors.general;
-    if (res) return
+    if (res) return errors.usernameTaken;
+    User.create({username, _id: shortid.generate()}, (err, res) => {
+      if (err) return errors.general;
+      return res;
+    });
   })
 };
 
 module.exports = {
-  connect: connect
+  connect,
+  createUser
 };

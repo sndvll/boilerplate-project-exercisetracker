@@ -40,7 +40,9 @@ app.use((err, req, res, next) => {
 
 
 // Routehandlers
-const newUserHandler = (req, res) => {};
+const newUserHandler = (req, res) => {
+  res.json(dao.createUser(req.body.username));
+};
 const newExcerciseHandler = (req, res) => {};
 const getHandler = (req, res) => {};
 
