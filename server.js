@@ -1,14 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-
 const cors = require('cors');
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI +'/test?retryWrites=true&w=majority', { useNewUrlParser: true }).catch(err => console.log(err));
+const dao = require('./dao.js');
+dao.connect();
 
 app.use(cors());
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -41,12 +39,16 @@ app.use((err, req, res, next) => {
 });
 
 
+// Routehandlers
 const newUserHandler = (req, res) => {};
-const newUserHandler = (req, res) => {};
+const newExcerciseHandler = (req, res) => {};
+const getHandler = (req, res) => {};
 
 
+// Routes
 app.post('/api/exercise/new-user', newUserHandler);
-app.post('', newExcerciseHandler);
+app.post('/api/exercise/add', newExcerciseHandler);
+app.get('/api/exercise/log', getHandler);
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
