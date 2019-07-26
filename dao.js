@@ -36,7 +36,10 @@ const createUser = (username, done) => {
     }
   });
 };
-const addExercise = (payload, done) => {}
+const addExercise = (payload, done) => {
+  console.log(payload);
+  done();
+};
 
 module.exports = {
   connect,

@@ -24,7 +24,9 @@ const newUserHandler = (req, res) => {
   });
 };
 const addExerciseHandler = (req, res) => {
-  dao.addExercise(req.body,)
+  dao.addExercise(req.body, (data) => {
+    res.send('done')
+  })
 };
 const getLogHandler = (req, res) => {};
 
