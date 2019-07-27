@@ -24,32 +24,40 @@ const User = mongoose.model('exerciseusers', userSchema);
 
 // Operations
 const createUser = (username, done) => {
-  User.findOne({username: username}, (err, user) => {
-    if (err) done({...errors.general});
-    else if (user) done({...errors.usernameTaken});
-    else {
-      User.create({username: username, _id: shortid.generate()}, (err, user) => {
-        if (err) done({...errors.general});
-        done({ username: user.username, _id: user._id });
-      });
-    }
-  });
+  User.findOne({username: username})
+    .then(user => {
+      if (user) done({...errors.usernameTaken});
+      else {
+        User.create({username: username, _id: shortid.generate()})
+          .then(user => {
+            done({ username: user.username, _id: user._id });
+          })
+          .catch(err => done({...errors.general}));
+      }
+    })
+    .catch(err => done({...errors.general}));
 };
+
 const addExercise = (payload, done) => {
   const log = {
     description: payload.description,
     duration: payload.duration,
     date: new Date(payload.date)
   };
-  User.findById({_id: payload.userId}, (err, user) => {
-    if (err) done({...errors.general});
-    user.log.push(log);
-    user.save((err, user) => err ? done(err) : done({...log, date: log.date.toUTCString(), _id: user._id, username: user.username}));
-  })
+  User.findById({ _id: payload.userId })
+    .then(user => {
+      user.log.push(log);
+      user.save((err, user) => err ? done(err) : done({...log, date: log.date.toUTCString(), _id: user._id, username: user.username}));
+    })
+    .catch(err => done({ ...errors.general }));
 };
 
-const findLog = (userId, from, to, limit) => {
-   
+const findLog = (userId, from, to, limit, done) => {
+   User.findById({_ud:userId })
+     .then(user => {
+       console.log(user);
+     })
+     .catch(err => done({...errors.general}));
 }
 
 module.exports = {

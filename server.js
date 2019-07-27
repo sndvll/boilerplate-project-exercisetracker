@@ -28,7 +28,11 @@ const addExerciseHandler = (req, res) => {
     res.send(data)
   })
 };
-const getLogHandler = (req, res) => {};
+const getLogHandler = (req, res) => {
+  dao.
+  console.log(req.query['userId']);
+  res.send('done');
+};
 
 
 // Routes
