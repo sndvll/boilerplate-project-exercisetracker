@@ -63,15 +63,14 @@ const findLog = (query, done) => {
    .then(user => {
       const { _id, username } = user;
       let { log } = user;
-    console.log(log)
-      if (from) {
-        log = log.filter(entry => new Date(entry.date) < new Date(from));
-      }
-    console.log(log)
+      log = from ? log.filter(entry => new Date(from) < new Date(entry.date)) : log;
+      log = to ? log.filter(entry => new Date(entry.date) < new Date(to)) : log;
+      log = limit ? log.splice(0, limit) : log;
       done({_id, username, count: log.length, log});
    })
    .catch(err => done({...errors.general}));
 };
+
 
 module.exports = {
   connect,
