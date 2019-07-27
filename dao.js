@@ -16,7 +16,6 @@ const connect = () => {
 const userSchema = mongoose.Schema({
   username: { type: String, required: true },
   _id: { type: String, required: true },
-  count: Number,
   log: []
 });
 
@@ -49,6 +48,10 @@ const addExercise = (payload, done) => {
     user.save((err, user) => err ? done(err) : done({...log, date: log.date.toUTCString(), _id: user._id, username: user.username}));
   })
 };
+
+const findLog = (userId, from, to, limit) => {
+  
+}
 
 module.exports = {
   connect,
