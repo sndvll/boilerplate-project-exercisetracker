@@ -47,7 +47,7 @@ const addExercise = (payload, done) => {
   User.findById({ _id: payload.userId })
     .then(user => {
       const { _id, username, log } = user;
-      user.log.push(log);
+      user.log.push(logEntry);
       user.save((err, user) => err ? 
                 done(err) : done({...logEntry, date: logEntry.date.toUTCString(), _id, username}));
     })
@@ -56,12 +56,21 @@ const addExercise = (payload, done) => {
 
 const findLog = (query, done) => {
   const userId = query['userId'];
-   User.findById({_id:userId })
-     .then(user => {
-       const { _id, username, log } = user;
-       done({_id, username, count: log.length, log});
-     })
-     .catch(err => done({...errors.general}));
+  const from = query['from'];
+  const to = query['to'];
+  const limit = query['limit'];
+  User.findById({_id:userId })
+   .then(user => {
+      const { _id, username } = user;
+      let { log } = user;
+    console.log(log)
+      if (from) {
+        log = log.filter(entry => new Date(entry.date) < new Date(from));
+      }
+    console.log(log)
+      done({_id, username, count: log.length, log});
+   })
+   .catch(err => done({...errors.general}));
 };
 
 module.exports = {
