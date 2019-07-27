@@ -46,7 +46,7 @@ const addExercise = (payload, done) => {
   User.findById({_id: payload.userId}, (err, user) => {
     if (err) done({...errors.general});
     user.log.push(log);
-    user.save((err, user) => err ? done(err) : done({...log, _id: user._id, username: user.username}));
+    user.save((err, user) => err ? done(err) : done({...log, date: log.date.toUTCString(), _id: user._id, username: user.username}));
   })
 };
 
