@@ -39,6 +39,8 @@ const createUser = (username, done) => {
 const addExercise = (payload, done) => {
   console.log(payload);
   done();
+  const log = {}
+  User.findOneAndUpdate({_id: payload.userId})
 };
 
 module.exports = {
