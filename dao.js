@@ -36,7 +36,6 @@ const createUser = (username, done) => {
   });
 };
 const addExercise = (payload, done) => {
-  console.log(payload);
   const log = {
     description: payload.description,
     duration: payload.duration,
@@ -50,7 +49,7 @@ const addExercise = (payload, done) => {
 };
 
 const findLog = (userId, from, to, limit) => {
-  
+   
 }
 
 module.exports = {
