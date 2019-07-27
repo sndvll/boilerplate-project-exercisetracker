@@ -25,22 +25,29 @@ const User = mongoose.model('exerciseusers', userSchema);
 
 // Operations
 const createUser = (username, done) => {
-  User.findOne({username: username}, (err, res) => {
+  User.findOne({username: username}, (err, user) => {
     if (err) done({...errors.general});
-    else if (res) done({...errors.usernameTaken});
+    else if (user) done({...errors.usernameTaken});
     else {
-      User.create({username: username, _id: shortid.generate()}, (err, res) => {
+      User.create({username: username, _id: shortid.generate()}, (err, user) => {
         if (err) done({...errors.general});
-        done({ username: res.username, _id: res._id });
+        done({ username: user.username, _id: user._id });
       });
     }
   });
 };
 const addExercise = (payload, done) => {
   console.log(payload);
-  done();
-  const log = {}
-  User.findOneAndUpdate({_id: payload.userId})
+  const log = {
+    description: payload.description,
+    duration: payload.duration,
+    date: new Date(payload.date)
+  };
+  User.findById({_id: payload.userId}, (err, user) => {
+    if (err) done({...errors.general});
+    user.log.push(log);
+    user.save((err, user) => err ? done(err) : done({...log, _id: user._id, username: user.username}));
+  })
 };
 
 module.exports = {
