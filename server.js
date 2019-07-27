@@ -19,19 +19,19 @@ app.get('/', (req, res) => {
 
 // Routehandlers
 const newUserHandler = (req, res) => {
-  dao.createUser(req.body.username, (data) => {
+  dao.createUser(req.body.username, data => {
     res.json(data)
   });
 };
 const addExerciseHandler = (req, res) => {
-  dao.addExercise(req.body, (data) => {
+  dao.addExercise(req.body, data => {
     res.send(data)
-  })
+  });
 };
 const getLogHandler = (req, res) => {
-  dao.
-  console.log(req.query['userId']);
-  res.send('done');
+  dao.findLog(req.query, data => {
+      res.send(data);
+  });
 };
 
 
